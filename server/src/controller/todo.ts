@@ -12,20 +12,23 @@ export const getTodos = async(req :Request, res :Response) :Promise<void> => {
 }
 
 export const addTodos = async(req :Request, res :Response) :Promise<void> => {
-    let body = req.body as Pick<ITodo, "title" | "description" | "status">;
+    const body = req.body as Pick<ITodo, "title" | "description" | "status">;
     try {
-        let todo :ITodo = new Todo({
+        const todo: ITodo = new Todo({
             title: body.title,
             description: body.description,
-            status: body.status
-        })
+            status: body.status,
+        });
 
-        let newTodo :ITodo = await todo.save()
-        let allTodos :ITodo[] = await Todo.find();
+        console.log(todo);
 
-        res.status(201).json({message: 'Todo Added', todo: newTodo, todos: allTodos})
+        const newTodo: ITodo = await todo.save();
+        const allTodos: ITodo[] = await Todo.find();
+        console.log("Todo Added");
+
+        res.status(201).json({message: 'Todo Added', todo: newTodo, todos: allTodos});
 
     } catch (error) {
-        
+        console.log(error)
     }
 }
