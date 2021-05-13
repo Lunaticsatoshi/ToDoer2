@@ -20,15 +20,36 @@ export const addTodos = async(req :Request, res :Response) :Promise<void> => {
             status: body.status,
         });
 
-        console.log(todo);
-
         const newTodo: ITodo = await todo.save();
         const allTodos: ITodo[] = await Todo.find();
-        console.log("Todo Added");
 
         res.status(201).json({message: 'Todo Added', todo: newTodo, todos: allTodos});
 
     } catch (error) {
-        console.log(error)
+        throw error
+    }
+}
+
+export const updateTodo = async(req :Request, res :Response) :Promise<void> => {
+    try {
+        const {params: {id},body} = req;
+        const updatedTodo :ITodo | null = await Todo.findByIdAndUpdate({_id : id},body);
+        const allTodos: ITodo[] = await Todo.find();
+
+        res.status(201).json({message: 'Todo Updated', todo: updatedTodo, todos: allTodos});
+    } catch (error) {
+        throw error
+    }
+}
+
+export const deleteTodo = async(req :Request, res :Response) :Promise<void> => {
+    try {
+        const {params: {id}} = req;
+        const deletedTodo :ITodo | null = await Todo.findByIdAndRemove(id);
+        const allTodos: ITodo[] = await Todo.find();
+
+        res.status(201).json({message: 'Todo Deleted', todo: deletedTodo, todos: allTodos});
+    } catch (error) {
+        throw error
     }
 }
