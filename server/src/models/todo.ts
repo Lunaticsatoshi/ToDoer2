@@ -6,7 +6,7 @@ const todoSchema: Schema = new Schema({
         type: String,
         required: true
     },
-    descrition: {
+    description: {
         type: String,
         required: true
     },
